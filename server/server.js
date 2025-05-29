@@ -2,6 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 
 import ProjectRouter from './routes/project.js';
+import UserRouter from './routes/user.js';
 
 // MongoDB connection
 mongoose.connect('mongodb+srv://thiagocastilho:pfOSa93z96rYpbiS@cluster0.o1kev.mongodb.net/mern?retryWrites=true&w=majority')
@@ -19,6 +20,7 @@ app.use(express.json());
 //Routes
 app.use('/health', (req, res) => res.status(200).json({ message: 'Server is running' }));
 app.use('/api/projects', ProjectRouter);
+app.use('/api/auth', UserRouter);
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
