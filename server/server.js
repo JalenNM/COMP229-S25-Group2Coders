@@ -1,11 +1,13 @@
 import express from 'express';
 import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+dotenv.config();
 
 import ProjectRouter from './routes/project.js';
 import UserRouter from './routes/user.js';
 
 // MongoDB connection
-mongoose.connect('mongodb+srv://thiagocastilho:pfOSa93z96rYpbiS@cluster0.o1kev.mongodb.net/mern?retryWrites=true&w=majority')
+mongoose.connect(process.env.MONGODB_URL)
 const connection = mongoose.connection;
 connection.on('error', console.error.bind(console, 'MongoDB connection error:'));
 connection.once('open', () => {
