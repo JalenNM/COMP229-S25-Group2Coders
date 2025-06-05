@@ -1,5 +1,6 @@
 import express from 'express';
 import { createproject, deleteProject, getAllProjects, getProjectById, updateProject } from '../controllers/project.js';
+import authMiddleware from '../middlewares/auth.js';
 
 const router = express.Router();
 
@@ -12,12 +13,12 @@ router.get('/', getAllProjects);
 router.get('/:id', getProjectById);
 
 // POST /api/projects
-router.post('/', createproject);
+router.post('/', authMiddleware,createproject);
 
 // PUT /api/projects/:id
-router.put('/:id', updateProject);
+router.put('/:id', authMiddleware,updateProject);
 
 // DELETE /api/projects/:id
-router.delete('/:id', deleteProject)
+router.delete('/:id', authMiddleware, deleteProject)
 
 export default router;
