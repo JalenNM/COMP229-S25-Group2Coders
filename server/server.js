@@ -23,6 +23,9 @@ app.use(express.json());
 app.use('/health', (req, res) => res.status(200).json({ message: 'Server is running' }));
 app.use('/api/projects', ProjectRouter);
 app.use('/api/auth', UserRouter);
+app.use('/api/data', (req, res) => {
+    res.status(200).json({ message: 'Hello from the server!' });
+})
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
