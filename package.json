@@ -1,5 +1,5 @@
 {
-  "name": "comp2229-s25-mern-skeleton",
+  "name": "comp229-s25-group2coders",
   "version": "1.0.0",
   "main": "server.js",
   "workspaces": [
@@ -14,7 +14,7 @@
     "build:client": "npm --prefix client run build",
     "build:server": "npm --prefix server run build"
   },
-  "author": "thiago castilho",
+  "author": "Group 2 Coders",
   "license": "ISC",
   "description": "",
   "devDependencies": {
