@@ -4,13 +4,28 @@ import generateToken from '../utils/jwt.js';
 // Register a new user
 export const registerUser = async (req, res) => {
     try {
+        const { email } = req.body;
+
+        // email validation
+        const existingUser = await UserModel.findOne({ email });
+        if (existingUser) {
+            return res.status(400).json({ message: 'Email is already registered' });
+        }
+
         const newUser = new UserModel(req.body);
         const savedUser = await newUser.save();
 
-        const token = generateToken(savedUser)
+        const token = generateToken(savedUser);
 
-        res.status(201).json({message: 'User registered successfully', user: savedUser, token});
+        const userResponse = {
+            _id: savedUser._id,
+            username: savedUser.username,
+            email: savedUser.email,
+        };
+
+        res.status(201).json({ message: 'User registered successfully', user: userResponse, token });
     } catch (error) {
+        console.error('Register error:', error.message);
         res.status(500).json({ message: 'Server error' });
     }
 }
