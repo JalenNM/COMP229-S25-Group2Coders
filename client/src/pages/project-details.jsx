@@ -78,9 +78,17 @@ const ProjectDetails = () => {
                 body: JSON.stringify(project)
             });
 
-            if(!response.ok){
-                throw new Error('Failed to save project');
+            // Check if the user is authorized to create or update the project
+        if (!response.ok) {
+            const errorData = await response.json();
+
+            if (response.status === 403) {
+                alert(errorData.message || 'You are not authorized to perform this action.');
+                return;
             }
+
+            throw new Error(errorData.message || 'Failed to save project');
+        }
 
             navigate('/projects');
         } catch (error) {

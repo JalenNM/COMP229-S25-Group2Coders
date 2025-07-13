@@ -51,31 +51,53 @@ export const createproject = async (req, res) => {
         res.status(500).json({ message: error.message }); 
     }
 };
+
 // Update a project by ID
+// Update a project by ID (only if user is the creator)
 export const updateProject = async (req, res) => {
     try {
+        const project = await ProjectModel.findById(req.params.id);
+        if (!project) {
+            return res.status(404).json({ message: 'Project not found' });
+        }
+
+        // Check if the user is authorized to update the project
+        if (project.createdBy.toString() !== req.user.id) {
+            return res.status(403).json({ message: 'You are not authorized to update this project.' });
+        }
+
         const updatedProject = await ProjectModel.findByIdAndUpdate(
             req.params.id,
             req.body,
-            { new: true, runValidators: true } // Return the updated document and run validators
+            { new: true, runValidators: true }
         );
-        if (!updatedProject) {
-            return res.status(404).json({ message: 'Project not found' }); // 404 HTTP status code for not found
-        }
-        res.status(200).json(updatedProject); // 200 HTTP status code for success
+
+        res.status(200).json(updatedProject);
     } catch (error) {
-        res.status(500).json({ message: error.message }); // 500 HTTP status code for server error
+        res.status(500).json({ message: error.message });
     }
-}
+};
+
+
 // Delete a project by ID
-export const deleteProject = async(req, res) => {
+export const deleteProject = async (req, res) => {
     try {
-        const deletedProject = await ProjectModel.findByIdAndDelete(req.params.id); //db.projects.findByIdAndDelete(req.params.id) if run using mongo shell
-        if (!deletedProject) {
-            return res.status(404).json({ message: 'Project not found' }); // 404 HTTP status code for not found
+        const project = await ProjectModel.findById(req.params.id);
+
+        if (!project) {
+            return res.status(404).json({ message: 'Project not found' });
         }
-        res.status(200).json({ message: 'Project deleted successfully' }); // 200 HTTP status code for success
+
+        // Check if the user is authorized to delete the project
+        if (project.createdBy.toString() !== req.user.id) {
+            // 403 Forbidden if the user is not the creator
+            return res.status(403).json({ message: 'You are not authorized to delete this project.' });
+        }
+
+        await ProjectModel.findByIdAndDelete(req.params.id);
+        res.status(200).json({ message: 'Project deleted successfully' });
     } catch (error) {
-        res.status(500).json({ message: error.message }); // 500 HTTP status code for server error
-    } 
-}
+        console.error('Error deleting project:', error);
+        res.status(500).json({ message: error.message });
+    }
+};

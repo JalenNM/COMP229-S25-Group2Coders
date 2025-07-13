@@ -38,21 +38,29 @@ const ProjectsList = () =>  {
         }
 
         try {
-            const response = await fetch(`/api/projects/${projectId}`, {
-                method: 'DELETE',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                }
-            });
-
-            if (!response.ok) {
-                throw new Error('Failed to delete project');
+        const response = await fetch(`/api/projects/${projectId}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${token}`,
             }
+        });
 
-            setProjects(prevProjects => prevProjects.filter(project => project._id !== projectId));
+        // Check if the user is authorized to delete the project
+        if (response.status === 403) {
+            const data = await response.json();
+            alert(data.message); // "You are not authorized to delete this project."
+            return;
+        }
+
+        if (!response.ok) {
+            throw new Error('Failed to delete project');
+        }
+
+        setProjects(prevProjects => prevProjects.filter(project => project._id !== projectId));
 
         } catch (error) {
             console.error(`Error deleting project: ${error.message}`);
+            alert('An error occurred while trying to delete the project.');
         }
     };
 
