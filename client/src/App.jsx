@@ -4,8 +4,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Home from './pages/home';
 import About from './pages/about';
 import Contact from './pages/contact';
-import Projects from './pages/projects';
-import Services from './pages/services';
+import MovieList from './pages/MovieList';
+import Review from './pages/Review';
 
 function App() {
   return (<>
@@ -20,12 +20,9 @@ function App() {
               </li>
               <li className="nav-item">
                 <Link className='nav-link' to="/about">About</Link>
-              </li>
+              </li>        
               <li className="nav-item">
-                <Link className='nav-link' to="/services">Services</Link>
-              </li>
-              <li className="nav-item">
-                <Link className='nav-link' to="/projects">Projects</Link>
+                <Link className='nav-link' to="/movies">Movies</Link>
               </li>
               <li className="nav-item">
                 <Link className='nav-link' to="/contact">Contact</Link>
@@ -43,8 +40,8 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path='/projects' element={<Projects />} />
-        <Route path="/services" element={<Services />} />
+        <Route path='/movies' element={<MovieList />} />
+        <Route path="/movies/:movieId/reviews" element={<Review />} />
       </Routes>
     </Router>
   </>)
