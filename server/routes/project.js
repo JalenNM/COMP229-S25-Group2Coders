@@ -3,6 +3,7 @@ import { createproject, deleteProject, getAllProjects, getProjectById, updatePro
 import authMiddleware from '../middlewares/auth.js';
 
 const router = express.Router();
+router.post('/projects', authMiddleware, createproject);
 
 // HTTP Verbs for RESTful API GET, POST, PUT, DELETE
 
@@ -20,5 +21,7 @@ router.put('/:id', authMiddleware,updateProject);
 
 // DELETE /api/projects/:id
 router.delete('/:id', authMiddleware, deleteProject)
+
+router.post('/', authMiddleware, createproject);
 
 export default router;
