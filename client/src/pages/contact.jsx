@@ -3,7 +3,7 @@
   Name: Chunghyun Lee
   Student number: 301000913
   Course: COMP229-401
-  Date: 2025/05/22
+  Date: 2025/07/14
 */
 
 import "./Contact.css";

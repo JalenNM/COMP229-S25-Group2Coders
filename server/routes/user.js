@@ -1,3 +1,11 @@
+/*
+  FileName: user.js
+  Name: Chunghyun Lee
+  Student number: 301000913
+  Course: COMP229-401
+  Date: 2025/07/14
+*/
+
 import express from 'express';
 import { registerUser, loginUser, createAdminUser } from '../controllers/user.js';
 import authMiddleware, { isAdmin } from '../middlewares/auth.js';
@@ -54,7 +62,7 @@ router.get('/:id', authMiddleware, isAdmin, async (req, res) => {
   }
 });
 
-// [DELETE] /api/users/:id - 사용자 삭제 (관리자 전용)
+//  delete /api/users/:id - Delete User (Administrator Only)
 router.delete('/:id', authMiddleware, isAdmin, async (req, res) => {
   try {
     const deletedUser = await UserModel.findByIdAndDelete(req.params.id);

@@ -1,3 +1,11 @@
+/*
+  FileName: project.js
+  Name: Chunghyun Lee
+  Student number: 301000913
+  Course: COMP229-401
+  Date: 2025/07/14
+*/
+
 import ProjectModel from '../models/project.js';
 
 // Read all projects
@@ -60,7 +68,7 @@ export const updateProject = async (req, res) => {
       return res.status(404).json({ message: 'Project not found' });
     }
 
-    // 관리자이거나 프로젝트 생성자면 수정 가능
+    // Check if the user is authorized to update the project
     if (req.user.role !== 'admin' && project.createdBy.toString() !== req.user.id) {
       return res.status(403).json({ message: 'You are not authorized to update this project.' });
     }

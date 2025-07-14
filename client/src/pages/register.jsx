@@ -1,3 +1,11 @@
+/*
+  FileName: register.jsx
+  Name: Chunghyun Lee
+  Student number: 301000913
+  Course: COMP229-401
+  Date: 2025/07/14
+*/
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -6,8 +14,8 @@ const Register = () => {
         username: '',
         email: '',
         password: '',
-        education: '',      // 추가
-        contact: ''         // 추가
+        education: '',      
+        contact: ''         
     });
 
     const [error, setError] = useState('');
@@ -97,7 +105,7 @@ const Register = () => {
                     />
                 </div>
 
-                {/* 학력 추가 */}
+                {/* Education*/}
                 <div className="form-group">
                     <label htmlFor="education">Education / Qualification</label>
                     <input
@@ -110,7 +118,7 @@ const Register = () => {
                     />
                 </div>
 
-                {/* 연락처 추가 */}
+                {/* Contact */}
                 <div className="form-group">
                     <label htmlFor="contact">Contact</label>
                     <input

@@ -1,10 +1,18 @@
+/*
+  FileName: auth.js
+  Name: Chunghyun Lee
+  Student number: 301000913
+  Course: COMP229-401
+  Date: 2025/07/14
+*/
+
 import jwt from 'jsonwebtoken';
 import UserModel from '../models/user.js';
 
 const authMiddleware = async (req, res, next) => {
   const authHeader = req.headers.authorization;
 
-  // 1. Authorization 헤더 유효성 검사
+  // 1. Authorization
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
     return res.status(401).json({ message: 'Authorization header missing or malformed' });
   }
@@ -12,17 +20,17 @@ const authMiddleware = async (req, res, next) => {
   const token = authHeader.split(' ')[1];
 
   try {
-    // 2. JWT 검증
+  
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    // 3. DB에서 사용자 정보 조회 (비밀번호 제외)
+    // user information search
     const user = await UserModel.findById(decoded.id).select('-password');
 
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    req.user = user; // 사용자 전체 정보 요청에 추가
+    req.user = user;
     next();
   } catch (error) {
     if (error.name === 'TokenExpiredError') {

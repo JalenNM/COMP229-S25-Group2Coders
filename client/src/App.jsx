@@ -1,3 +1,11 @@
+/*
+  FileName: App.jsx
+  Name: Chunghyun Lee
+  Student number: 301000913
+  Course: COMP229-401
+  Date: 2025/07/14
+*/
+
 import { useEffect, useState } from 'react';
 import { Link, Routes, Route, BrowserRouter as Router } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';

@@ -1,15 +1,10 @@
-/* ✅ 화면 전체를 수직 수평 정중앙에 배치 */
-.contact-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  background-color: #ffffff;
-  padding: 2rem;
-  box-sizing: border-box;
-}
-
-/* ✅ Contact 카드 스타일 */
+/*
+  FileName: Contact.css
+  Name: Chunghyun Lee
+  Student number: 301000913
+  Course: COMP229-401
+  Date: 2025/07/14
+*/
 .form {
   width: 100%;
   max-width: 500px;
@@ -24,14 +19,12 @@
   align-items: center;
 }
 
-/* 텍스트 */
 .form p {
   margin: 0;
   font-size: 16px;
   color: #000;
 }
 
-/* 아이콘 + 텍스트 줄 */
 .contact-row {
   display: flex;
   align-items: center;
@@ -41,13 +34,11 @@
   width: 100%;
 }
 
-/* 아이콘 크기 */
 .contact-icon {
   font-size: 30px;
   color: #333;
 }
 
-/* SNS 링크 줄 */
 .sns {
   display: flex;
   font-size: 45px;
@@ -56,7 +47,6 @@
   margin-top: 1rem;
 }
 
-/* ✅ 반응형 스타일 */
 @media (max-width: 480px) {
   .form {
     padding: 1.5rem;

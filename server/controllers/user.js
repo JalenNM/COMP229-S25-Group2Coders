@@ -1,3 +1,11 @@
+/*
+  FileName: user.js
+  Name: Chunghyun Lee
+  Student number: 301000913
+  Course: COMP229-401
+  Date: 2025/07/14
+*/
+
 import UserModel from '../models/user.js';
 import generateToken from '../utils/jwt.js';
 import jwt from 'jsonwebtoken';
@@ -47,7 +55,7 @@ export const loginUser = async (req, res) => {
             return res.status(401).json({ message: 'Invalid password' });
         }
 
-        // JWT 토큰에 role 포함
+        // JWT token includes user role
         const token = jwt.sign(
             {
                 id: user._id,
@@ -79,7 +87,7 @@ export const loginUser = async (req, res) => {
 //admin login user
 export const createAdminUser = async (req, res) => {
   try {
-    // 이메일과 사용자명 둘 다 검사
+    // Check if admin user already exists
     const existingEmail = await UserModel.findOne({ email: 'admin@admin.com' });
     const existingUsername = await UserModel.findOne({ username: 'admin' });
 

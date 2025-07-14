@@ -1,3 +1,11 @@
+/*
+  FileName: project-list.jsx
+  Name: Chunghyun Lee
+  Student number: 301000913
+  Course: COMP229-401
+  Date: 2025/07/14
+*/
+
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 const user = JSON.parse(localStorage.getItem('user') || '{}');
@@ -105,7 +113,6 @@ const ProjectsList = () =>  {
                                         Update
                                     </button>
 
-                                    {/* Delete 버튼은 admin인 경우에만 보이게 */}
                                     {user.role === 'admin' && (
                                     <button
                                         className="btn btn-danger"

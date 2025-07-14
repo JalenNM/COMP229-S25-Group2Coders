@@ -1,3 +1,11 @@
+/*
+  FileName: project.js
+  Name: Chunghyun Lee
+  Student number: 301000913
+  Course: COMP229-401
+  Date: 2025/07/14
+*/
+
 import mongoose from 'mongoose';
 
 const projectSchema = new mongoose.Schema({
