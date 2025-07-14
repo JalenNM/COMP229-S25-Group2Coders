@@ -4,9 +4,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Home from './pages/home';
 import About from './pages/about';
+import AboutDetail from './pages/About-details';
 import Contact from './pages/contact';
 import Projects from './pages/projects';
-import Services from './pages/services';
 import Register from './pages/register';
 import Login from './pages/login';
 import ProjectList from './pages/project-list';
@@ -58,13 +58,10 @@ function App() {
                   <Link className="nav-link" to="/">Home</Link>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link" to="/about">About</Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/services">Services</Link>
-                </li>
-                <li className="nav-item">
                   <Link className="nav-link" to="/projects">Projects</Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/about">About</Link>
                 </li>
                 <li className="nav-item">
                   <Link className="nav-link" to="/contact">Contact</Link>
@@ -101,11 +98,11 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
+            <Route path="/about-details" element={<AboutDetail />} />
             <Route path="/contact" element={<Contact />} />
             <Route path='/projects' element={<ProjectList />} />
             <Route path="/project-details/:id?" element={<ProjectDetails />} />
             <Route path="/project-read/:id" element={<ProjectRead />} />
-            <Route path="/services" element={<Services />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
           </Routes>

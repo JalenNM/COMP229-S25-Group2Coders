@@ -5,7 +5,9 @@ const Register = () => {
     const [form, setForm] = useState({
         username: '',
         email: '',
-        password: ''
+        password: '',
+        education: '',      // 추가
+        contact: ''         // 추가
     });
 
     const [error, setError] = useState('');
@@ -37,7 +39,6 @@ const Register = () => {
             localStorage.setItem('token', data.token);
             localStorage.setItem('username', data.user.username);
 
-            // 3seconds later redirect
             setMessage('Registration successful!');
             setTimeout(() => {
                 setMessage('');
@@ -53,10 +54,7 @@ const Register = () => {
         <div className="container mt-4">
             <h1 className="text-center">Register</h1>
 
-            {/* success registration message */}
             {message && <div className="alert alert-success">{message}</div>}
-
-            {/* error message */}
             {error && <div className="alert alert-danger">{error}</div>}
 
             <form onSubmit={handleSubmit}>
@@ -72,6 +70,7 @@ const Register = () => {
                         required
                     />
                 </div>
+
                 <div className="form-group">
                     <label htmlFor="email">Email</label>
                     <input
@@ -84,6 +83,7 @@ const Register = () => {
                         required
                     />
                 </div>
+
                 <div className="form-group">
                     <label htmlFor="password">Password</label>
                     <input
@@ -96,10 +96,37 @@ const Register = () => {
                         required
                     />
                 </div>
+
+                {/* 학력 추가 */}
+                <div className="form-group">
+                    <label htmlFor="education">Education / Qualification</label>
+                    <input
+                        type='text'
+                        id='education'
+                        name='education'
+                        value={form.education}
+                        onChange={handleChange}
+                        className="form-control"
+                    />
+                </div>
+
+                {/* 연락처 추가 */}
+                <div className="form-group">
+                    <label htmlFor="contact">Contact</label>
+                    <input
+                        type='text'
+                        id='contact'
+                        name='contact'
+                        value={form.contact}
+                        onChange={handleChange}
+                        className="form-control"
+                    />
+                </div>
+
                 <button type="submit" className="btn btn-primary">Register</button>
             </form>
         </div>
-    )
+    );
 }
 
 export default Register;

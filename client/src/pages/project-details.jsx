@@ -83,7 +83,7 @@ const ProjectDetails = () => {
             const errorData = await response.json();
 
             if (response.status === 403) {
-                alert(errorData.message || 'You are not authorized to perform this action.');
+                alert(errorData.message || 'You are not authorized');
                 return;
             }
 

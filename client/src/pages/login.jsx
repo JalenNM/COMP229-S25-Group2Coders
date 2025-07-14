@@ -37,6 +37,7 @@ const Login = () => {
             const data = await response.json();
             localStorage.setItem('token', data.token);
             localStorage.setItem('username', data.user.username);
+            localStorage.setItem('user', JSON.stringify(data.user));
             //setUser({ 'username': data.user.username });
             navigate('/');
             // success login message

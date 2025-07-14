@@ -6,6 +6,7 @@ dotenv.config();
 import ProjectRouter from './routes/project.js';
 import UserRouter from './routes/user.js';
 import UserModel from './models/user.js';
+import userRoutes from './routes/user.js';
 
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {

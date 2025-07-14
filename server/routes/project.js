@@ -1,9 +1,8 @@
 import express from 'express';
 import { createproject, deleteProject, getAllProjects, getProjectById, updateProject } from '../controllers/project.js';
-import authMiddleware from '../middlewares/auth.js';
+import authMiddleware, { isAdmin } from '../middlewares/auth.js';
 
 const router = express.Router();
-router.post('/projects', authMiddleware, createproject);
 
 // HTTP Verbs for RESTful API GET, POST, PUT, DELETE
 
@@ -14,14 +13,13 @@ router.get('/', getAllProjects);
 router.get('/:id', getProjectById);
 
 // POST /api/projects
-router.post('/', authMiddleware,createproject);
+router.post('/', authMiddleware, createproject);
 
 // PUT /api/projects/:id
-router.put('/:id', authMiddleware,updateProject);
+router.put('/:id', authMiddleware, updateProject);
 
 // DELETE /api/projects/:id
-router.delete('/:id', authMiddleware, deleteProject)
+router.delete('/:id', authMiddleware, isAdmin, deleteProject);
 
-router.post('/', authMiddleware, createproject);
 
 export default router;

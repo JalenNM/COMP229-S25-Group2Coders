@@ -52,52 +52,54 @@ export const createproject = async (req, res) => {
     }
 };
 
-// Update a project by ID
 // Update a project by ID (only if user is the creator)
 export const updateProject = async (req, res) => {
-    try {
-        const project = await ProjectModel.findById(req.params.id);
-        if (!project) {
-            return res.status(404).json({ message: 'Project not found' });
-        }
-
-        // Check if the user is authorized to update the project
-        if (project.createdBy.toString() !== req.user.id) {
-            return res.status(403).json({ message: 'You are not authorized to update this project.' });
-        }
-
-        const updatedProject = await ProjectModel.findByIdAndUpdate(
-            req.params.id,
-            req.body,
-            { new: true, runValidators: true }
-        );
-
-        res.status(200).json(updatedProject);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
+  try {
+    const project = await ProjectModel.findById(req.params.id);
+    if (!project) {
+      return res.status(404).json({ message: 'Project not found' });
     }
+
+    // 관리자이거나 프로젝트 생성자면 수정 가능
+    if (req.user.role !== 'admin' && project.createdBy.toString() !== req.user.id) {
+      return res.status(403).json({ message: 'You are not authorized to update this project.' });
+    }
+
+    const updatedProject = await ProjectModel.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true, runValidators: true }
+    );
+
+    res.status(200).json(updatedProject);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 
 
 // Delete a project by ID
 export const deleteProject = async (req, res) => {
-    try {
-        const project = await ProjectModel.findById(req.params.id);
+  try {
+    const project = await ProjectModel.findById(req.params.id).populate('createdBy');
 
-        if (!project) {
-            return res.status(404).json({ message: 'Project not found' });
-        }
-
-        // Check if the user is authorized to delete the project
-        if (project.createdBy.toString() !== req.user.id) {
-            // 403 Forbidden if the user is not the creator
-            return res.status(403).json({ message: 'You are not authorized to delete this project.' });
-        }
-
-        await ProjectModel.findByIdAndDelete(req.params.id);
-        res.status(200).json({ message: 'Project deleted successfully' });
-    } catch (error) {
-        console.error('Error deleting project:', error);
-        res.status(500).json({ message: error.message });
+    if (!project) {
+      return res.status(404).json({ message: 'Project not found' });
     }
+
+    const creatorId = project.createdBy?._id
+      ? project.createdBy._id.toString()
+      : project.createdBy.toString();
+
+    if (req.user.role !== 'admin' && String(creatorId) !== String(req.user.id)) {
+      return res.status(403).json({ message: 'You are not authorized to delete this project.' });
+    }
+
+    await ProjectModel.findByIdAndDelete(req.params.id);
+    res.status(200).json({ message: 'Project deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting project:', error);
+    res.status(500).json({ message: error.message });
+  }
 };
+

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+const user = JSON.parse(localStorage.getItem('user') || '{}');
 const ProjectsList = () =>  {
     const [projects, setProjects] = useState([]);
     const navigate = useNavigate();
@@ -91,9 +91,29 @@ const ProjectsList = () =>  {
                                 <td>{project.createdBy?.username || project.createdBy?.email || 'Unknown'}</td>
 
                                 <td>
-                                    <button className="btn btn-info me-2" onClick={() => navigate(`/project-read/${project._id}`)}>Read</button>
-                                    <button className="btn btn-secondary me-2" onClick={() => navigate(`/project-details/${project._id}`)}>Update</button>
-                                    <button className="btn btn-danger" onClick={() => handleDelete(project._id)}>Delete</button>
+                                    <button
+                                        className="btn btn-info me-2"
+                                        onClick={() => navigate(`/project-read/${project._id}`)}
+                                    >
+                                        Read
+                                    </button>
+
+                                    <button
+                                        className="btn btn-secondary me-2"
+                                        onClick={() => navigate(`/project-details/${project._id}`)}
+                                    >
+                                        Update
+                                    </button>
+
+                                    {/* Delete 버튼은 admin인 경우에만 보이게 */}
+                                    {user.role === 'admin' && (
+                                    <button
+                                        className="btn btn-danger"
+                                        onClick={() => handleDelete(project._id)}
+                                    >
+                                        Delete
+                                    </button>
+                                    )}
                                 </td>
                             </tr>
                         ))}

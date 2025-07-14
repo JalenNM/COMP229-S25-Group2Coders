@@ -19,6 +19,20 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true,
+    },
+    education: {
+        type: String,
+        trim: true
+    },
+    contact: {
+        type: String,
+        trim: true
+    },
+    //admin
+     role: { 
+        type: String, 
+        enum: ['user', 'admin'], 
+        default: 'user' 
     }
 });
 
@@ -35,3 +49,4 @@ userSchema.methods.comparePassword = async function(password){
 
 
 export default mongoose.model('User', userSchema);
+//module.exports = mongoose.model('User', userSchema);
