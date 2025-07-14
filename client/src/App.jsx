@@ -12,12 +12,15 @@ import Login from './pages/login';
 import ProjectList from './pages/project-list';
 import ProjectDetails from './pages/project-details';
 import ProjectRead from './pages/project-read';
+import Admin from './pages/admin';
+import AdminUserView from './pages/adminUserView';
 
 function App() {
   const getUserFromStorage = () => {
     const token = localStorage.getItem('token');
     const username = localStorage.getItem('username');
-    return token && username ? { token, username } : null;
+    const role = localStorage.getItem('role');
+    return token && username ? { token, username, role } : null;
   };
 
   const [user, setUser] = useState(getUserFromStorage());
@@ -66,6 +69,12 @@ function App() {
                 <li className="nav-item">
                   <Link className="nav-link" to="/contact">Contact</Link>
                 </li>
+                {/* Admin panel page*/}
+                {user?.role === 'admin' && (
+                  <li className="nav-item">
+                    <Link className="nav-link text-danger fw-bold" to="/admin">Admin Panel</Link>
+                  </li>
+                )}
               </ul>
 
               <ul className="navbar-nav ms-auto">
@@ -105,6 +114,8 @@ function App() {
             <Route path="/project-read/:id" element={<ProjectRead />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/admin" element={<Admin />} />
+            <Route path="/admin/user/:id" element={<AdminUserView />} />
           </Routes>
         </div>
       </div>

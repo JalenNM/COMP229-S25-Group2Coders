@@ -13,7 +13,7 @@ const About = () => {
                 const res = await fetch('/api/users/me', {
                     headers: { Authorization: `Bearer ${token}` }
                 });
-                if (!res.ok) throw new Error('유저 정보를 불러오지 못했습니다');
+                if (!res.ok) throw new Error('Failed to fetch user data');
 
                 const data = await res.json();
                 setUser(data);
@@ -26,7 +26,7 @@ const About = () => {
     }, []);
 
     const goToEdit = () => {
-        navigate('/about-details'); // 수정 페이지로 이동
+        navigate('/about-details'); // about-details page directly
     };
 
     return (

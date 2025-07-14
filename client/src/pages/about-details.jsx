@@ -14,7 +14,7 @@ const AboutDetail = () => {
         const res = await fetch("/api/users/me", {
           headers: { Authorization: `Bearer ${token}` },
         });
-        if (!res.ok) throw new Error("유저 정보를 불러오지 못했습니다.");
+        if (!res.ok) throw new Error("Failed to fetch user data");
         const data = await res.json();
         setUser(data);
         setForm({ education: data.education || "", contact: data.contact || "" });
@@ -41,8 +41,8 @@ const AboutDetail = () => {
         },
         body: JSON.stringify(form),
       });
-      if (!res.ok) throw new Error("정보 수정에 실패했습니다.");
-      navigate("/about"); // 수정 완료 후 조회 페이지로 이동
+      if (!res.ok) throw new Error("Failed to update user information.");
+      navigate("/about"); // Redirect to About page after update
     } catch (err) {
       setError(err.message);
     }
@@ -53,12 +53,10 @@ const AboutDetail = () => {
 
   return (
     <div className="container mt-4">
-      <h2>프로필 수정</h2>
-      <div className="alert alert-warning" role="alert">
-        수정은 학력 연락처만 허용됩니다.
-      </div>
+      <h2>Edit Profile</h2>
+      <div className="alert alert-warning" role="alert">Modifications are only acceptable for Education and Contact.</div>
       <form onSubmit={handleSubmit}>
-        {/* 읽기 전용 필드 */}
+        {/* only read*/}
         <div className="mb-3">
           <label>Username</label>
           <input type="text" className="form-control" value={user.username} readOnly />
@@ -72,9 +70,9 @@ const AboutDetail = () => {
           <input type="text" className="form-control" value={user.role} readOnly />
         </div>
 
-        {/* 수정 가능한 필드 */}
+        {/* Editable fields */}
         <div className="mb-3">
-          <label>학력</label>
+          <label>Education</label>
           <input
             type="text"
             name="education"
@@ -84,7 +82,7 @@ const AboutDetail = () => {
           />
         </div>
         <div className="mb-3">
-          <label>연락처</label>
+          <label>Contact address</label>
           <input
             type="text"
             name="contact"
@@ -93,7 +91,7 @@ const AboutDetail = () => {
             className="form-control"
           />
         </div>
-        <button type="submit" className="btn btn-primary">저장</button>
+        <button type="submit" className="btn btn-primary">Save</button>
       </form>
     </div>
   );

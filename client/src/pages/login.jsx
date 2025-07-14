@@ -8,7 +8,7 @@ const Login = () => {
     });
 
     const [error, setError] = useState('');
-    const [message, setMessage] = useState(''); // ✅ 메시지 상태 추가
+    const [message, setMessage] = useState('');
     const navigate = useNavigate();
 
     const handleChange = (e) => {
@@ -38,7 +38,7 @@ const Login = () => {
             localStorage.setItem('token', data.token);
             localStorage.setItem('username', data.user.username);
             localStorage.setItem('user', JSON.stringify(data.user));
-            //setUser({ 'username': data.user.username });
+            localStorage.setItem('role', data.user.role);
             navigate('/');
             // success login message
             setMessage('login successful!');
