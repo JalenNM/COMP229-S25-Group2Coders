@@ -5,6 +5,16 @@
   Course: COMP229-401
   Date: 2025/07/14
 */
+
+.contact-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
 .form {
   width: 100%;
   max-width: 500px;
@@ -23,6 +33,15 @@
   margin: 0;
   font-size: 16px;
   color: #000;
+}
+
+.contact-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 1rem;
+  box-sizing: border-box;
 }
 
 .contact-row {

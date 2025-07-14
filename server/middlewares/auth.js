@@ -5,7 +5,6 @@
   Course: COMP229-401
   Date: 2025/07/14
 */
-
 import jwt from 'jsonwebtoken';
 import UserModel from '../models/user.js';
 
