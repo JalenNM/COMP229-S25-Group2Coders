@@ -13,6 +13,7 @@ const __dirname = path.dirname(__filename);
 import MovieRouter from './routes/movies.js';
 import reviewRoutes from './routes/reviews.js';
 import UserRouter from './routes/user.js';
+import adminRoutes from './routes/admin.js';
 
 // MongoDB connection
 mongoose.connect(process.env.MONGODB_URL)
@@ -32,6 +33,7 @@ app.use('/health', (req, res) => res.status(200).json({ message: 'Server is runn
 app.use('/api/movies', MovieRouter);
 app.use('/api/reviews', reviewRoutes);
 app.use('/api/auth', UserRouter);
+app.use('/api/users', adminRoutes); 
 app.use('/api/data', (req, res) => {
     res.status(200).json({ message: 'Hello from the server!' });
 })

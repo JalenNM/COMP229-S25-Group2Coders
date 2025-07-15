@@ -9,6 +9,8 @@ import MovieList from './pages/movie-list';
 import MovieDetails from './pages/movie-details';
 import Register from './pages/register';
 import Login from './pages/login';
+import AdminPanel from './pages/admin-panel';
+import AdminUsers from './pages/admin-users';
 
 function App() {
   const getUserFromStorage = () => {
@@ -63,6 +65,9 @@ function App() {
                 <li className="nav-item"><Link className="nav-link" to="/about">About</Link></li>
                 <li className="nav-item"><Link className="nav-link" to="/movies">Movies</Link></li>
                 <li className="nav-item"><Link className="nav-link" to="/contact">Contact</Link></li>
+                {user?.role === 'admin' && (
+                  <li className="nav-item"><Link className="nav-link" to="/admin-panel">Admin Panel</Link></li>
+                )}
               </ul>
               <ul className="navbar-nav ms-auto">
                 {user ? (
@@ -95,6 +100,15 @@ function App() {
           <Route path="/movie-details/:id?" element={<MovieDetails user={user} />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login setUser={setUser} />} />
+          <Route path="/admin-panel" element={<AdminPanel user={user} />} />
+          <Route path="/admin-panel/users" element={<AdminUsers user={user} />} />
+          <Route path="*" element={
+            <div className="text-center mt-5">
+              <h2>404 - Page Not Found</h2>
+              <p>The page you are looking for does not exist.</p>
+              <Link to="/" className="btn btn-primary mt-3">Go to Home</Link>
+            </div>
+          } />
         </Routes>
       </div>
     </Router>

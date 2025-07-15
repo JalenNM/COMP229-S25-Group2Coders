@@ -226,6 +226,7 @@ const MovieDetails = ({ user }) => {
       {id && (
         <>
           <hr />
+          <h3 className="text-center mb-3">Reviews for: <span className="text-primary">{movie.title}</span></h3>
           <h4>Reviews</h4>
 
           {reviews.length === 0 ? (
