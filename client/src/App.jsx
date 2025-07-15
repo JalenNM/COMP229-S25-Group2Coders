@@ -1,59 +1,10 @@
 import { Link, Routes, Route, BrowserRouter as Router } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-<<<<<<< HEAD
-=======
 import { useState, useEffect } from 'react';
->>>>>>> server-movie-api-fixes
 
 import Home from './pages/home';
 import About from './pages/about';
 import Contact from './pages/contact';
-<<<<<<< HEAD
-import MovieList from './pages/MovieList';
-import Review from './pages/Review';
-
-function App() {
-  return (<>
-    <Router>
-      <div className="App">
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
-          <Link className='navbar-brand' to="/">My Portfolio</Link>
-          <div className="collapse navbar-collapse">
-            <ul className="navbar-nav mr-auto">
-              <li className="nav-item">
-                <Link className='nav-link' to="/">Home</Link>
-              </li>
-              <li className="nav-item">
-                <Link className='nav-link' to="/about">About</Link>
-              </li>        
-              <li className="nav-item">
-                <Link className='nav-link' to="/movies">Movies</Link>
-              </li>
-              <li className="nav-item">
-                <Link className='nav-link' to="/contact">Contact</Link>
-              </li>
-            </ul>
-            <ul className="navbar-nav ml-auto">
-              <li className="nav-item">Register</li>
-              <li className="nav-item">Login</li>
-            </ul>
-          </div>
-        </nav>
-      </div>
-
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path='/movies' element={<MovieList />} />
-        <Route path="/movies/:movieId/reviews" element={<Review />} />
-      </Routes>
-    </Router>
-  </>)
-}
-
-export default App;
-=======
 import MovieList from './pages/movie-list';
 import MovieDetails from './pages/movie-details';
 import Register from './pages/register';
@@ -165,4 +116,3 @@ function App() {
 }
 
 export default App;
->>>>>>> server-movie-api-fixes

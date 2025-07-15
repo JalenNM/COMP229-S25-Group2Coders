@@ -1,22 +1,5 @@
 import jwt from 'jsonwebtoken';
 
-<<<<<<< HEAD
-const generateToken = (user) => {
-    return jwt.sign(
-        {
-            id: user._id,
-            email: user.email,
-            username: user.username,
-        }, 
-        process.env.JWT_SECRET, 
-        {
-            expiresIn: '1h'
-        }
-    );
-}
-
-export default generateToken;
-=======
 // Generate a JWT token with user info, including role
 export const generateToken = (user) => {
   return jwt.sign(
@@ -53,4 +36,3 @@ export const authenticateToken = (req, res, next) => {
 };
 
 export default generateToken;
->>>>>>> server-movie-api-fixes
