@@ -1,6 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+<<<<<<< HEAD
 import MovieRouter from './routes/movieRoutes.js'
 dotenv.config();
 console.log('Mongo URI:', process.env.MONGODB_URL);
@@ -8,6 +9,21 @@ console.log('Mongo URI:', process.env.MONGODB_URL);
 
 import ProjectRouter from './routes/project.js';
 import UserRouter from './routes/user.js';
+=======
+dotenv.config();
+
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+// Crate __dirname equivalent in ES Modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+import MovieRouter from './routes/movies.js';
+import reviewRoutes from './routes/reviews.js';
+import UserRouter from './routes/user.js';
+import adminRoutes from './routes/admin.js';
+>>>>>>> server-movie-api-fixes
 
 // MongoDB connection
 mongoose.connect(process.env.MONGODB_URL)
@@ -21,16 +37,36 @@ const app = express();
 const PORT = 3000;
 
 app.use(express.json());
+<<<<<<< HEAD
 app.use('/api/movies', MovieRouter);
 
 //Routes
 app.use('/health', (req, res) => res.status(200).json({ message: 'Server is running' }));
 app.use('/api/projects', ProjectRouter);
 app.use('/api/auth', UserRouter);
+=======
+
+//Routes
+app.use('/health', (req, res) => res.status(200).json({ message: 'Server is running' }));
+app.use('/api/movies', MovieRouter);
+app.use('/api/reviews', reviewRoutes);
+app.use('/api/auth', UserRouter);
+app.use('/api/users', adminRoutes); 
+>>>>>>> server-movie-api-fixes
 app.use('/api/data', (req, res) => {
     res.status(200).json({ message: 'Hello from the server!' });
 })
 
+<<<<<<< HEAD
+=======
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.join(__dirname, '../client/dist')));
+    app.get(/^(?!\/api).*/, (req, res) => {
+        res.sendFile(path.join(__dirname, '../client/dist', 'index.html'));
+    });
+}
+
+>>>>>>> server-movie-api-fixes
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });
