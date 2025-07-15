@@ -1,7 +1,10 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import MovieRouter from './routes/movieRoutes.js'
 dotenv.config();
+console.log('Mongo URI:', process.env.MONGODB_URL);
+
 
 import ProjectRouter from './routes/project.js';
 import UserRouter from './routes/user.js';
@@ -18,6 +21,7 @@ const app = express();
 const PORT = 3000;
 
 app.use(express.json());
+app.use('/api/movies', MovieRouter);
 
 //Routes
 app.use('/health', (req, res) => res.status(200).json({ message: 'Server is running' }));
