@@ -33,8 +33,12 @@ const MovieDetails = ({ user }) => {
         const movieData = await movieRes.json();
         const reviewData = await reviewRes.json();
 
-        setMovie(movieData);
-        setReviews(reviewData);
+        setMovie(movieData.movie || movieData); // support both {movie, reviews} and flat
+        if (movieData.reviews) {
+          setReviews(movieData.reviews);
+        } else {
+          setReviews(reviewData);
+        }
       } catch (err) {
         console.error('Fetch error:', err);
       }
@@ -226,63 +230,66 @@ const MovieDetails = ({ user }) => {
       {id && (
         <>
           <hr />
-          <h3 className="text-center mb-3">Reviews for: <span className="text-primary">{movie.title}</span></h3>
-          <h4>Reviews</h4>
-
-          {reviews.length === 0 ? (
-            <p>No reviews yet.</p>
+          {!movie.title ? (
+            <div className="text-center my-4">Loading movie details...</div>
           ) : (
-            <ul className="list-group mb-4">
-              {reviews.map((r) => (
-                <li className="list-group-item" key={r._id}>
-                  <div>
-                    <strong>User:</strong> {r.reviewer?.username || 'Anonymous'}
+            <>
+              <h3 className="text-center mb-3">Reviews for: <span className="text-primary">{movie.title}</span></h3>
+              <h4>Reviews</h4>
+              {reviews.length === 0 ? (
+                <p>No reviews yet.</p>
+              ) : (
+                <ul className="list-group mb-4">
+                  {reviews.map((r) => (
+                    <li className="list-group-item" key={r._id}>
+                      <div>
+                        <strong>User:</strong> {r.reviewer?.username || 'Anonymous'}
+                      </div>
+                      <div>
+                        <strong>Rating:</strong> {r.rating} / 5
+                      </div>
+                      <div>{r.reviewText}</div>
+                      {(user?.role === 'admin' || user?._id === r.reviewer?._id) && (
+                        <button
+                          className="btn btn-danger btn-sm mt-2"
+                          onClick={() => handleDeleteReview(r._id, r.reviewer._id)}
+                        >
+                          Delete
+                        </button>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              )}
+              {user && user.role !== 'admin' && (
+                <form onSubmit={handleSubmitReview}>
+                  <div className="form-group mb-2">
+                    <label>Review</label>
+                    <textarea
+                      className="form-control"
+                      value={reviewText}
+                      onChange={(e) => setReviewText(e.target.value)}
+                      required
+                    />
                   </div>
-                  <div>
-                    <strong>Rating:</strong> {r.rating} / 5
+                  <div className="form-group mb-2">
+                    <label>Rating</label>
+                    <input
+                      type="number"
+                      min="1"
+                      max="5"
+                      value={rating}
+                      onChange={(e) => setRating(Number(e.target.value))}
+                      className="form-control"
+                      required
+                    />
                   </div>
-                  <div>{r.reviewText}</div>
-
-                  {(user?.role === 'admin' || user?._id === r.reviewer?._id) && (
-                    <button
-                      className="btn btn-danger btn-sm mt-2"
-                      onClick={() => handleDeleteReview(r._id, r.reviewer._id)}
-                    >
-                      Delete
-                    </button>
-                  )}
-                </li>
-              ))}
-            </ul>
-          )}
-
-          {user && user.role !== 'admin' && (
-            <form onSubmit={handleSubmitReview}>
-              <div className="form-group mb-2">
-                <label>Review</label>
-                <textarea
-                  className="form-control"
-                  value={reviewText}
-                  onChange={(e) => setReviewText(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="form-group mb-2">
-                <label>Rating</label>
-                <input
-                  type="number"
-                  min="1"
-                  max="5"
-                  value={rating}
-                  onChange={(e) => setRating(Number(e.target.value))}
-                  className="form-control"
-                  required
-                />
-              </div>
-              <button type="submit" className="btn btn-success">
-                Submit Review
-              </button>
-            </form>
+                  <button type="submit" className="btn btn-success">
+                    Submit Review
+                  </button>
+                </form>
+              )}
+            </>
           )}
         </>
       )}
