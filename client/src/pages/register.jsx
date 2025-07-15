@@ -34,7 +34,7 @@ const Register = () => {
 
             const data = await response.json();
             localStorage.setItem('token', data.token);
-            localStorage.setItem('username', data.user.username);
+            localStorage.setItem('user', JSON.stringify(data.user));
 
             navigate('/');
 
