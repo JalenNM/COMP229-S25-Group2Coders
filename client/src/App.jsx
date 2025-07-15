@@ -1,11 +1,3 @@
-/*
-  FileName: App.jsx
-  Name: Chunghyun Lee
-  Student number: 301000913
-  Course: COMP229-401
-  Date: 2025/07/14
-*/
-
 import { useEffect, useState } from 'react';
 import { Link, Routes, Route, BrowserRouter as Router } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -13,13 +5,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Home from './pages/home';
 import About from './pages/about';
 import AboutDetail from './pages/About-details';
-import Contact from './pages/contact';
-import Projects from './pages/projects';
 import Register from './pages/register';
 import Login from './pages/login';
-import ProjectList from './pages/project-list';
-import ProjectDetails from './pages/project-details';
-import ProjectRead from './pages/project-read';
 import Admin from './pages/admin';
 import AdminUserView from './pages/adminUserView';
 
@@ -116,10 +103,6 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/about-details" element={<AboutDetail />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path='/projects' element={<ProjectList />} />
-            <Route path="/project-details/:id?" element={<ProjectDetails />} />
-            <Route path="/project-read/:id" element={<ProjectRead />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
             <Route path="/admin" element={<Admin />} />

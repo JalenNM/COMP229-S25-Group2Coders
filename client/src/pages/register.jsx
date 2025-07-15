@@ -1,11 +1,3 @@
-/*
-  FileName: register.jsx
-  Name: Chunghyun Lee
-  Student number: 301000913
-  Course: COMP229-401
-  Date: 2025/07/14
-*/
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 

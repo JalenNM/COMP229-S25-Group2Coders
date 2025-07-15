@@ -1,11 +1,3 @@
-/*
-  FileName: jwt.js
-  Name: Chunghyun Lee
-  Student number: 301000913
-  Course: COMP229-401
-  Date: 2025/07/14
-*/
-
 import jwt from 'jsonwebtoken';
 
 const generateToken = (user) => {
