@@ -12,6 +12,7 @@ import Login from './pages/login';
 import AdminPanel from './pages/admin-panel';
 import AdminUsers from './pages/admin-users';
 
+
 function App() {
   const getUserFromStorage = () => {
     const token = localStorage.getItem("token");
@@ -93,7 +94,7 @@ function App() {
         {/* All routes are inside the main app container now */}
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
+          <Route path="/about" element={<About user={user} />} /> {/*Add about route */}
           <Route path="/contact" element={<Contact />} />
           <Route path="/movies" element={<MovieList user={user} />} />
           <Route path="/movies/:id" element={<MovieDetails user={user} />} />
