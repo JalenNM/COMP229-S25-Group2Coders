@@ -76,3 +76,24 @@
   font-weight: bold;
   user-select: none;
 }
+
+.about-container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 32px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    text-align: center;
+}
+
+.about-container h1 {
+    color: #2d2d2d;
+    margin-bottom: 16px;
+}
+
+.about-container p {
+    color: #555;
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
