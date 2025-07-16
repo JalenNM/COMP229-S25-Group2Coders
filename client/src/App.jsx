@@ -12,7 +12,7 @@ import Register from './pages/register';
 import Login from './pages/login';
 import AdminPanel from './pages/admin-panel';
 import AdminUsers from './pages/admin-users';
-
+import Footer from "./components/Footer/footer";
 
 function App() {
   const getUserFromStorage = () => {
@@ -114,6 +114,7 @@ function App() {
             </div>
           } />
         </Routes>
+        <Footer />
       </div>
     </Router>
   );
