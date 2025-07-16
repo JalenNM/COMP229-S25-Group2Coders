@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 
 import Home from './pages/home';
 import About from './pages/about';
+import Profile from './pages/profile';
 import Contact from './pages/contact';
 import MovieList from './pages/movie-list';
 import MovieDetails from './pages/movie-details';
@@ -64,6 +65,7 @@ function App() {
               <ul className="navbar-nav me-auto">
                 <li className="nav-item"><Link className="nav-link" to="/">Home</Link></li>
                 <li className="nav-item"><Link className="nav-link" to="/about">About</Link></li>
+                <li className="nav-item"><Link className="nav-link" to="/profile">Profile</Link></li>
                 <li className="nav-item"><Link className="nav-link" to="/movies">Movies</Link></li>
                 <li className="nav-item"><Link className="nav-link" to="/contact">Contact</Link></li>
                 {user?.role === 'admin' && (
@@ -94,7 +96,8 @@ function App() {
         {/* All routes are inside the main app container now */}
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About user={user} />} /> {/*Add about route */}
+          <Route path="/about" element={<About />} />
+          <Route path="/profile" element={<Profile user={user} />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/movies" element={<MovieList user={user} />} />
           <Route path="/movies/:id" element={<MovieDetails user={user} />} />
