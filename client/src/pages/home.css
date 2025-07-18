@@ -1,0 +1,35 @@
+.scrolling-wrapper {
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  width: 100%;
+  position: relative;
+  padding-bottom: 10px;
+}
+
+.scrolling-content {
+  display: inline-flex;
+  animation: scroll-left 30s linear infinite;
+}
+
+@keyframes scroll-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.card.scrolling-card {
+  min-width: 220px;
+  max-width: 220px;
+  margin-right: 1rem;
+}
+
+@media (max-width: 576px) {
+  .card.scrolling-card {
+    min-width: 160px;
+    max-width: 160px;
+  }
+}
