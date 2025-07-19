@@ -48,7 +48,10 @@ function App() {
       <div className="App">
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
           <div className="container-fluid">
-            <Link className="navbar-brand" to="/">FlickBuzz</Link>
+            <Link className="navbar-brand d-flex align-items-center" to="/">
+              <img src="/logo.jpg" alt="Logo" style={{ height: '30px', marginRight: '10px' }} />
+              FlickBuzz
+            </Link>
             <button
               className="navbar-toggler"
               type="button"
