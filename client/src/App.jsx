@@ -61,13 +61,12 @@ function App() {
               <span className="navbar-toggler-icon"></span>
             </button>
 
-            <div className="collapse navbar-collapse" id="navbarNav">
-              <ul className="navbar-nav me-auto">
+            <div className="collapse navbar-collapse justify-content-center" id="navbarNav">
+              <ul className="navbar-nav mx-auto">
                 <li className="nav-item"><Link className="nav-link" to="/">Home</Link></li>
                 <li className="nav-item"><Link className="nav-link" to="/about">About</Link></li>
                 <li className="nav-item"><Link className="nav-link" to="/profile">Profile</Link></li>
                 <li className="nav-item"><Link className="nav-link" to="/movies">Movies</Link></li>
-                <li className="nav-item"><Link className="nav-link" to="/contact">Contact</Link></li>
                 {user?.role === 'admin' && (
                   <li className="nav-item"><Link className="nav-link" to="/admin-panel">Admin Panel</Link></li>
                 )}
