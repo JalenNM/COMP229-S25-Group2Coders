@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 
 const MoviesList = ({ user }) => {
   const [movies, setMovies] = useState([]);
+  const [sortField, setSortField] = useState('title');
+  const [sortOrder, setSortOrder] = useState('asc');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -28,6 +30,9 @@ const MoviesList = ({ user }) => {
       return;
     }
 
+    const confirmed = window.confirm('Are you sure you want to delete this movie?');
+    if (!confirmed) return;
+
     try {
       const response = await fetch(`/api/movies/${movieId}`, {
         method: 'DELETE',
@@ -46,9 +51,38 @@ const MoviesList = ({ user }) => {
     }
   };
 
+  // Sorting logic
+  const sortedMovies = [...movies].sort((a, b) => {
+    let aField = a[sortField] || '';
+    let bField = b[sortField] || '';
+    if (sortField === 'releaseYear') {
+      aField = Number(aField) || 0;
+      bField = Number(bField) || 0;
+    } else {
+      aField = aField.toString().toLowerCase();
+      bField = bField.toString().toLowerCase();
+    }
+    if (aField < bField) return sortOrder === 'asc' ? -1 : 1;
+    if (aField > bField) return sortOrder === 'asc' ? 1 : -1;
+    return 0;
+  });
+
   return (
-    <div className="container mt-4">
+    <div className="container mt-4" style={{ paddingBottom: '100px' }}>
       <h1 className="text-center mb-4">Movies</h1>
+
+      {/* Sorting controls */}
+      <div className="d-flex flex-wrap align-items-center mb-3 gap-2">
+        <label className="me-2 mb-0">Sort by:</label>
+        <select value={sortField} onChange={e => setSortField(e.target.value)} className="form-select w-auto">
+          <option value="title">Title</option>
+          <option value="releaseYear">Year</option>
+        </select>
+        <select value={sortOrder} onChange={e => setSortOrder(e.target.value)} className="form-select w-auto">
+          <option value="asc">Ascending</option>
+          <option value="desc">Descending</option>
+        </select>
+      </div>
 
       {/* Admin-only Create button */}
       {user?.role === 'admin' && (
@@ -64,10 +98,11 @@ const MoviesList = ({ user }) => {
         </button>
       )}
 
-      {movies.length > 0 ? (
+      {sortedMovies.length > 0 ? (
         <table className="table table-striped">
           <thead>
             <tr>
+              <th>Poster</th>
               <th>Title</th>
               <th>Description</th>
               <th>Release Year</th>
@@ -77,8 +112,21 @@ const MoviesList = ({ user }) => {
             </tr>
           </thead>
           <tbody>
-            {movies.map((movie) => (
+            {sortedMovies.map((movie) => (
               <tr key={movie._id}>
+                <td>
+                  {movie.posterUrl ? (
+                    <img
+                      src={movie.posterUrl}
+                      alt={movie.title}
+                      style={{ width: '60px', height: '90px', objectFit: 'cover', cursor: 'pointer' }}
+                      onClick={() => navigate(`/movies/${movie._id}`)}
+                      title="View & Review"
+                    />
+                  ) : (
+                    <span className="text-muted">No Image</span>
+                  )}
+                </td>
                 <td>{movie.title}</td>
                 <td>{movie.description}</td>
                 <td>{movie.releaseYear}</td>

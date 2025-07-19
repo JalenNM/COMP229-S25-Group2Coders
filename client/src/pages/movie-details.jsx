@@ -8,6 +8,7 @@ const MovieDetails = ({ user }) => {
     releaseYear: '',
     genre: '',
     director: '',
+    posterUrl: '',
   });
 
   const [reviews, setReviews] = useState([]);
@@ -47,11 +48,12 @@ const MovieDetails = ({ user }) => {
     fetchMovieAndReviews();
   }, [id]);
 
-  // Redirect non-admin users away from create page
+  // Redirect non-admin users away from create page, but allow all users (including admins) to view reviews page
   useEffect(() => {
     if (!id && (!user || user.role !== 'admin')) {
       navigate('/movies');
     }
+    // If id exists (viewing a movie), allow all users including admins
   }, [id, user, navigate]);
 
   const handleChange = (e) => {
@@ -111,8 +113,8 @@ const MovieDetails = ({ user }) => {
       return;
     }
 
-    if (rating < 1 || rating > 5) {
-      alert('Rating must be between 1 and 5.');
+    if (rating < 0 || rating > 5) {
+      alert('Rating must be between 0 and 5. Decimals allowed.');
       return;
     }
 
@@ -168,7 +170,7 @@ const MovieDetails = ({ user }) => {
   };
 
   return (
-    <div className="container mt-4">
+    <div className="container mt-4" style={{ paddingBottom: '100px' }}>
       <h2 className="text-center mb-4">{id ? 'Movie Details' : 'Create Movie'}</h2>
 
       {user?.role === 'admin' && (
@@ -221,6 +223,16 @@ const MovieDetails = ({ user }) => {
               className="form-control"
             />
           </div>
+          <div className="form-group mb-3">
+            <label>Poster Image URL</label>
+            <input
+              name="posterUrl"
+              value={movie.posterUrl}
+              onChange={handleChange}
+              className="form-control"
+              placeholder="e.g. /poster1.jpg or https://..."
+            />
+          </div>
           <button type="submit" className="btn btn-primary">
             {id ? 'Update' : 'Create'}
           </button>
@@ -234,7 +246,27 @@ const MovieDetails = ({ user }) => {
             <div className="text-center my-4">Loading movie details...</div>
           ) : (
             <>
-              <h3 className="text-center mb-3">Reviews for: <span className="text-primary">{movie.title}</span></h3>
+              <div className="row mb-4 align-items-center">
+                <div className="col-md-3 text-center mb-3 mb-md-0">
+                  {movie.posterUrl ? (
+                    <img
+                      src={movie.posterUrl}
+                      alt={movie.title}
+                      style={{ width: '100%', maxWidth: '200px', height: 'auto', objectFit: 'cover', borderRadius: '8px', boxShadow: '0 2px 8px rgba(0,0,0,0.1)' }}
+                    />
+                  ) : (
+                    <span className="text-muted">No Image</span>
+                  )}
+                </div>
+                <div className="col-md-9">
+                  <h2>{movie.title}</h2>
+                  <p><strong>Description:</strong> {movie.description}</p>
+                  <p><strong>Release Year:</strong> {movie.releaseYear}</p>
+                  <p><strong>Genre:</strong> {movie.genre}</p>
+                  <p><strong>Director:</strong> {movie.director}</p>
+                </div>
+              </div>
+              <h3 className="text-center mb-3">User Reviews for <span>{movie.title}</span></h3>
               <h4>Reviews</h4>
               {reviews.length === 0 ? (
                 <p>No reviews yet.</p>
@@ -262,32 +294,41 @@ const MovieDetails = ({ user }) => {
                 </ul>
               )}
               {user && user.role !== 'admin' && (
-                <form onSubmit={handleSubmitReview}>
-                  <div className="form-group mb-2">
-                    <label>Review</label>
-                    <textarea
-                      className="form-control"
-                      value={reviewText}
-                      onChange={(e) => setReviewText(e.target.value)}
-                      required
-                    />
-                  </div>
-                  <div className="form-group mb-2">
-                    <label>Rating</label>
-                    <input
-                      type="number"
-                      min="1"
-                      max="5"
-                      value={rating}
-                      onChange={(e) => setRating(Number(e.target.value))}
-                      className="form-control"
-                      required
-                    />
-                  </div>
-                  <button type="submit" className="btn btn-success">
-                    Submit Review
-                  </button>
-                </form>
+                (() => {
+                  const hasReviewed = reviews.some(r => r.reviewer?._id === user._id);
+                  if (hasReviewed) {
+                    return <div className="alert alert-info">You have already submitted a review for this movie.</div>;
+                  }
+                  return (
+                    <form onSubmit={handleSubmitReview}>
+                      <div className="form-group mb-2">
+                        <label>Review</label>
+                        <textarea
+                          className="form-control"
+                          value={reviewText}
+                          onChange={(e) => setReviewText(e.target.value)}
+                          required
+                        />
+                      </div>
+                      <div className="form-group mb-2">
+                        <label>Rating</label>
+                        <input
+                          type="number"
+                          min="0"
+                          max="5"
+                          step="0.1"
+                          value={rating}
+                          onChange={(e) => setRating(Number(e.target.value))}
+                          className="form-control"
+                          required
+                        />
+                      </div>
+                      <button type="submit" className="btn btn-success">
+                        Submit Review
+                      </button>
+                    </form>
+                  );
+                })()
               )}
             </>
           )}

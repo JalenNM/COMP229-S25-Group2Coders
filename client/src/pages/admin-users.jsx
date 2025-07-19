@@ -75,7 +75,7 @@ const AdminUsers = ({ user }) => {
   }
 
   return (
-    <div className="container mt-4">
+    <div className="container mt-4" style={{ paddingBottom: '100px' }}>
       <h2 className="text-center mb-4">User Management</h2>
 
       {error && <div className="alert alert-danger">{error}</div>}
