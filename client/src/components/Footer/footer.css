@@ -5,7 +5,23 @@
   width: 100%;
   background: #222;
   color: #fff;
-  text-align: center;
   padding: 1rem 0;
   z-index: 100;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.footer-left {
+  text-align: left;
+}
+
+.footer-right {
+  text-align: right;
 }

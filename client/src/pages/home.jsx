@@ -14,7 +14,22 @@ export default function Home() {
 
     return (
         <div className="container mt-4" style={{ paddingBottom: '100px' }}>
-            <h1 className="mb-4">Featured Movies</h1>
+            <a
+                href="#about"
+                onClick={e => { e.preventDefault(); navigate('/about'); }}
+                style={{ display: 'block', margin: '0 auto', maxWidth: '200px', height: 'auto' }}
+            >
+                <img
+                    src="/logo.jpg"
+                    alt="Logo"
+                    style={{ display: 'block', margin: '0 auto', maxWidth: '200px', height: 'auto' }}
+                />
+            </a>
+            <h1 className="mb-4" style={{ cursor: 'pointer', textDecoration: 'underline' }}
+                onClick={() => navigate('/movies')}
+            >
+                Featured Movies
+            </h1>
             {movies.length === 0 ? (
                 <div className="text-center">No movies available</div>
             ) : (
