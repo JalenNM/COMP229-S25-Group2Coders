@@ -1,3 +1,9 @@
+/* Center navbar links */
+.navbar-nav.mx-auto {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
 .movie-list-container {
   padding: 2rem;
   max-width: 1200px;
