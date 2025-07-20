@@ -1,12 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
+import { UserContext } from '../context/UserContext';
 
 const Profile = () => {
-  const storedUser = JSON.parse(localStorage.getItem('user'));
-  const [user, setUser] = useState(storedUser || {});
+  const { user, setUser } = useContext(UserContext);
   const [showForm, setShowForm] = useState(false);
-  const [username, setUsername] = useState(user.username || '');
+  const [username, setUsername] = useState(user?.username || '');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState(null);
+
+  // Keep username field in sync if user changes
+  useEffect(() => {
+    setUsername(user?.username || '');
+  }, [user]);
 
   const handleProfileUpdate = async () => {
     try {
@@ -24,7 +29,7 @@ const Profile = () => {
       // Update local user info (if username changed)
       const updatedUser = { ...user, username };
       localStorage.setItem('user', JSON.stringify(updatedUser));
-      setUser(updatedUser);
+      setUser(updatedUser); // Update context, triggers navbar rerender
 
       setMessage('✅ Profile updated successfully!');
       setPassword('');
@@ -35,8 +40,16 @@ const Profile = () => {
     }
   };
 
+  if (!user) {
+    return (
+      <div className="container mt-5" style={{ maxWidth: '600px', paddingBottom: '80px' }}>
+        <div className="alert alert-warning text-center">You must be logged in to view your profile.</div>
+      </div>
+    );
+  }
+
   return (
-    <div className="container mt-5" style={{ maxWidth: '600px' }}>
+    <div className="container mt-5" style={{ maxWidth: '600px', paddingBottom: '150px' }}>
       <h2 className="mb-4">My Profile</h2>
 
       {message && (

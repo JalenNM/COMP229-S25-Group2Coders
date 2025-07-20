@@ -1,6 +1,7 @@
 import { Link, Routes, Route, BrowserRouter as Router } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useState, useEffect } from 'react';
+import { useContext, useEffect } from 'react';
+import { UserContext } from './context/UserContext';
 
 import Home from './pages/home';
 import About from './pages/about';
@@ -14,27 +15,24 @@ import AdminPanel from './pages/admin-panel';
 import AdminUsers from './pages/admin-users';
 import Footer from "./components/Footer/footer";
 
+
 function App() {
-  const getUserFromStorage = () => {
-    const token = localStorage.getItem("token");
-    const userString = localStorage.getItem("user");
-
-    if (token && userString) {
-      try {
-        const user = JSON.parse(userString);
-        return { ...user, token, isAdmin: user.role === 'admin'};
-      } catch (err) {
-        console.error("Failed to parse user from storage", err);
-        return null;
-      }
-    }
-    return null;
-  };
-
-  const [user, setUser] = useState(() => getUserFromStorage());
+  const { user, setUser } = useContext(UserContext);
 
   useEffect(() => {
-    setUser(getUserFromStorage());
+    const token = localStorage.getItem("token");
+    const userString = localStorage.getItem("user");
+    if (token && userString) {
+      try {
+        const userObj = JSON.parse(userString);
+        setUser({ ...userObj, token, isAdmin: userObj.role === 'admin' });
+      } catch (err) {
+        setUser(null);
+      }
+    } else {
+      setUser(null);
+    }
+    // eslint-disable-next-line
   }, []);
 
   const handleLogout = () => {
@@ -99,15 +97,15 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
-          <Route path="/profile" element={<Profile user={user} />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/movies" element={<MovieList user={user} />} />
-          <Route path="/movies/:id" element={<MovieDetails user={user} />} />
-          <Route path="/movie-details/:id?" element={<MovieDetails user={user} />} />
+          <Route path="/movies" element={<MovieList />} />
+          <Route path="/movies/:id" element={<MovieDetails />} />
+          <Route path="/movie-details/:id?" element={<MovieDetails />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login setUser={setUser} />} />
-          <Route path="/admin-panel" element={<AdminPanel user={user} />} />
-          <Route path="/admin-panel/users" element={<AdminUsers user={user} />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/admin-panel" element={<AdminPanel />} />
+          <Route path="/admin-panel/users" element={<AdminUsers />} />
           <Route path="*" element={
             <div className="text-center mt-5">
               <h2>404 - Page Not Found</h2>
