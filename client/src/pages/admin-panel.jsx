@@ -1,7 +1,9 @@
-import { useEffect } from 'react';
+import { useEffect, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { UserContext } from '../context/UserContext';
 
-const AdminPanel = ({ user }) => {
+const AdminPanel = () => {
+  const { user } = useContext(UserContext);
   const navigate = useNavigate();
 
   useEffect(() => {

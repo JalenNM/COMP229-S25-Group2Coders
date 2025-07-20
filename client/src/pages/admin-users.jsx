@@ -1,6 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
+import { UserContext } from '../context/UserContext';
 
-const AdminUsers = ({ user }) => {
+const AdminUsers = () => {
+  const { user } = useContext(UserContext);
   const [users, setUsers] = useState([]);
   const [error, setError] = useState('');
 
@@ -50,11 +52,18 @@ const AdminUsers = ({ user }) => {
     }
   };
 
-  const deleteUser = async (userId) => {
-    if (!window.confirm('Are you sure you want to delete this user?')) return;
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [userToDelete, setUserToDelete] = useState(null);
 
+  const handleDeleteClick = (userId) => {
+    setUserToDelete(userId);
+    setShowConfirm(true);
+  };
+
+  const confirmDeleteUser = async () => {
+    if (!userToDelete) return;
     try {
-      const res = await fetch(`/api/users/${userId}`, {
+      const res = await fetch(`/api/users/${userToDelete}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${user.token}`,
@@ -63,10 +72,14 @@ const AdminUsers = ({ user }) => {
 
       if (!res.ok) throw new Error('Failed to delete user');
 
-      setUsers((prev) => prev.filter((u) => u._id !== userId));
+      setUsers((prev) => prev.filter((u) => u._id !== userToDelete));
+      setShowConfirm(false);
+      setUserToDelete(null);
     } catch (err) {
       console.error(err);
       alert('Error deleting user');
+      setShowConfirm(false);
+      setUserToDelete(null);
     }
   };
 
@@ -116,7 +129,7 @@ const AdminUsers = ({ user }) => {
                   )}
                   <button
                     className="btn btn-sm btn-danger"
-                    onClick={() => deleteUser(u._id)}
+                    onClick={() => handleDeleteClick(u._id)}
                   >
                     Delete
                   </button>
@@ -125,6 +138,26 @@ const AdminUsers = ({ user }) => {
             ))}
           </tbody>
         </table>
+      )}
+      {/* Confirmation Modal */}
+      {showConfirm && (
+        <div className="modal show" style={{ display: 'block', background: 'rgba(0,0,0,0.5)' }} tabIndex="-1">
+          <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">Confirm Delete</h5>
+                <button type="button" className="btn-close" onClick={() => setShowConfirm(false)} aria-label="Close"></button>
+              </div>
+              <div className="modal-body">
+                <p>Are you sure you want to delete this user?</p>
+              </div>
+              <div className="modal-footer">
+                <button type="button" className="btn btn-secondary" onClick={() => setShowConfirm(false)}>Cancel</button>
+                <button type="button" className="btn btn-danger" onClick={confirmDeleteUser}>Delete</button>
+              </div>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

@@ -1,7 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
+import { UserContext } from '../context/UserContext';
 import { useNavigate } from 'react-router-dom';
 
-const MoviesList = ({ user }) => {
+const MoviesList = () => {
+  const { user } = useContext(UserContext);
   const [movies, setMovies] = useState([]);
   const [sortField, setSortField] = useState('title');
   const [sortOrder, setSortOrder] = useState('asc');
