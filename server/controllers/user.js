@@ -77,3 +77,22 @@ export const loginUser = async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 };
+
+// Update user profile
+export const updateUserProfile = async (req, res) => {
+  const { username, password } = req.body;
+
+  try {
+    const user = await UserModel.findById(req.params.id);
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    if (username) user.username = username;
+    if (password) user.password = password;
+
+    await user.save();
+    res.json({ message: 'Profile updated successfully' });
+  } catch (err) {
+    console.error('Error updating user:', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+};

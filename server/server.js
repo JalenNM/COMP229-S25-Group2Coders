@@ -2,7 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 dotenv.config();
-
+import userRoutes from './routes/user.js'; // Import user routes
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -33,7 +33,8 @@ app.use('/health', (req, res) => res.status(200).json({ message: 'Server is runn
 app.use('/api/movies', MovieRouter);
 app.use('/api/reviews', reviewRoutes);
 app.use('/api/auth', UserRouter);
-app.use('/api/users', adminRoutes); 
+app.use('/api/users', adminRoutes);
+app.use('/api/users', userRoutes); // Ensure userRoutes is imported correctly
 app.use('/api/data', (req, res) => {
     res.status(200).json({ message: 'Hello from the server!' });
 })
