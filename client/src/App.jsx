@@ -48,7 +48,22 @@ function App() {
       <div className="App">
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
           <div className="container-fluid">
-            <Link className="navbar-brand" to="/">FlickBuzz</Link>
+           <Link className="navbar-brand d-flex align-items-center" to="/">
+             <img
+               src="/group2-logo.png"
+               alt="Group 2 Coders Logo for FlickBuzz homepage"
+                style={{
+                  width: '40px',
+                  height: '40px',
+                  borderRadius: '50%',
+                  marginRight: '10px'
+                }}
+              />
+              <span style={{ verticalAlign: "middle", display: "inline-block" }}>
+                FlickBuzz
+              </span>
+                </Link>
+
             <button
               className="navbar-toggler"
               type="button"

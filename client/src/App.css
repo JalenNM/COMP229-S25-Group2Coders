@@ -97,3 +97,158 @@
     font-size: 1.1rem;
     line-height: 1.6;
 }
+/* ============================= */
+
+/* 🌙 Dark Mode Styles by Fatima */
+
+/* ============================= */
+
+ 
+
+body {
+
+  background-color: #1a1a1a;
+
+  color: #f5f5f5;
+
+  font-family: 'Helvetica Neue', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Dotum', sans-serif;
+
+  margin: 0;
+
+  padding: 0;
+
+}
+
+ 
+
+/* Link and Button Styling */
+
+a,
+
+button {
+
+  color: #9cadbf;
+
+  transition: 0.3s ease;
+
+}
+
+ 
+
+a:hover,
+
+button:hover {
+
+  background-color: #9cadbf;
+
+  color: #1a1a1a;
+
+  cursor: pointer;
+
+}
+
+ 
+
+/* Card and Container Backgrounds */
+
+.container,
+
+.card,
+
+.movie-card,
+
+.about-container {
+
+  background-color: #2e2e2e;
+
+  border-radius: 10px;
+
+  padding: 1rem;
+
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+
+}
+
+ 
+
+/* Navbar Styling */
+
+.navbar {
+
+  background-color: #222;
+
+  border-bottom: 2px solid #9cadbf;
+
+}
+
+ 
+
+.navbar-brand,
+
+.nav-item,
+
+.nav-link {
+
+  color: #9cadbf !important;
+
+}
+
+ 
+
+/* Logo inside Navbar */
+
+.navbar-brand img {
+
+  height: 40px;
+
+  margin-right: 10px;
+
+  filter: brightness(1.1);
+
+}
+
+ 
+
+/* Section Headings */
+
+.section-title,
+
+h1, h2, h3 {
+
+  color: #9cadbf;
+
+}
+
+ 
+
+/* Optional: Form Styling */
+
+input,
+
+textarea,
+
+select {
+
+  background-color: #333;
+
+  color: #f5f5f5;
+
+  border: 1px solid #9cadbf;
+
+}
+
+ 
+
+input:focus,
+
+textarea:focus,
+
+select:focus {
+
+  outline: none;
+
+  border-color: #9cadbf;
+
+  box-shadow: 0 0 5px #9cadbf;
+
+}
