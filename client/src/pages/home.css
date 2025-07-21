@@ -1,3 +1,26 @@
+/* Accent background for movie titles inside scrolling cards */
+.card.scrolling-card {
+  min-width: 220px;
+  max-width: 220px;
+  margin-right: 1rem;
+  background: #9cadbf !important;
+  color: #181c24 !important;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.18);
+  border: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.card.scrolling-card .card-title {
+  background: none;
+  color: #181c24;
+  padding: 0.25em 0.5em;
+  border-radius: 4px;
+  display: inline-block;
+  margin-bottom: 0.5rem;
+  box-shadow: none;
+}
 .scrolling-wrapper {
   overflow-x: auto;
   overflow-y: hidden;
