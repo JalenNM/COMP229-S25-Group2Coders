@@ -81,19 +81,21 @@ const Profile = () => {
 
       {showForm && (
         <div className="card card-body">
-          <div className="mb-3">
-            <label className="form-label">Update New Username</label>
+          <div className="form-group">
+            <label htmlFor="username" className="form-label">Update New Username</label>
             <input
               type="text"
+              id="username"
               className="form-control"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
             />
           </div>
-          <div className="mb-3">
-            <label className="form-label">Update New Password</label>
+          <div className="form-group">
+            <label htmlFor="password" className="form-label">Update New Password</label>
             <input
               type="password"
+              id="password"
               className="form-control"
               value={password}
               onChange={(e) => setPassword(e.target.value)}

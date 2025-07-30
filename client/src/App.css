@@ -295,3 +295,43 @@ h3.section-title:hover {
     font-size: 1.1rem;
     line-height: 1.6;
 }
+
+/* Form controls dark theme styling */
+.form-control {
+  background-color: var(--color-bg-alt) !important;
+  border: 1px solid var(--color-border) !important;
+  color: var(--color-text) !important;
+  border-radius: 6px;
+}
+
+.form-control:focus {
+  background-color: var(--color-bg-alt) !important;
+  border-color: var(--color-primary) !important;
+  color: var(--color-text) !important;
+  box-shadow: 0 0 0 0.2rem rgba(156, 173, 191, 0.25) !important;
+}
+
+.form-control::placeholder {
+  color: var(--color-text-muted) !important;
+}
+
+.form-label {
+  color: var(--color-text) !important;
+  font-weight: 500;
+}
+
+/* Card styling for dark theme */
+.card {
+  background-color: var(--color-card) !important;
+  border: 1px solid var(--color-border) !important;
+  border-radius: 8px;
+}
+
+.card-body {
+  color: var(--color-text) !important;
+}
+
+/* Form group spacing */
+.form-group {
+  margin-bottom: 1rem;
+}
