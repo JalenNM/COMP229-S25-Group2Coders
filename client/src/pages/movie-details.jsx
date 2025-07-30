@@ -1,7 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import { UserContext } from '../context/UserContext';
 import { useNavigate, useParams } from 'react-router-dom';
 
-const MovieDetails = ({ user }) => {
+const MovieDetails = () => {
+  const { user } = useContext(UserContext);
   const [movie, setMovie] = useState({
     title: '',
     description: '',

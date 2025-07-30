@@ -1,5 +1,5 @@
 import express from 'express';
-import { loginUser, registerUser } from '../controllers/user.js';
+import { loginUser, registerUser, updateUserProfile } from '../controllers/user.js';
 
 const router = express.Router();
 
@@ -8,5 +8,9 @@ router.post('/register', registerUser);
 
 // Login a User POST /api/users/login
 router.post('/login', loginUser);
+
+// Update User Profile PUT /api/users/:id/profile
+router.put('/:id/profile', updateUserProfile);
+
 
 export default router;
