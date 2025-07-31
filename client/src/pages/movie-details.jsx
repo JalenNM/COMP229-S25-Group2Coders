@@ -16,6 +16,9 @@ const MovieDetails = () => {
   const [reviews, setReviews] = useState([]);
   const [reviewText, setReviewText] = useState('');
   const [rating, setRating] = useState(5);
+  const [editingReview, setEditingReview] = useState(null);
+  const [editReviewText, setEditReviewText] = useState('');
+  const [editRating, setEditRating] = useState(5);
 
   const { id } = useParams();
   const navigate = useNavigate();
@@ -171,6 +174,65 @@ const MovieDetails = () => {
     }
   };
 
+  const handleEditReview = (review) => {
+    setEditingReview(review._id);
+    setEditReviewText(review.reviewText);
+    setEditRating(review.rating);
+  };
+
+  const handleCancelEdit = () => {
+    setEditingReview(null);
+    setEditReviewText('');
+    setEditRating(5);
+  };
+
+  const handleUpdateReview = async (reviewId) => {
+    if (!user) {
+      alert('You must be logged in');
+      return;
+    }
+
+    if (!editReviewText.trim()) {
+      alert('Review text cannot be empty.');
+      return;
+    }
+
+    if (editRating < 0 || editRating > 5) {
+      alert('Rating must be between 0 and 5. Decimals allowed.');
+      return;
+    }
+
+    try {
+      const res = await fetch(`/api/reviews/${reviewId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${user.token}`,
+        },
+        body: JSON.stringify({
+          reviewText: editReviewText,
+          rating: editRating,
+        }),
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.message || 'Failed to update review');
+      }
+
+      const updatedReviewData = await res.json();
+      setReviews((prev) =>
+        prev.map((r) => (r._id === reviewId ? updatedReviewData.review : r))
+      );
+      setEditingReview(null);
+      setEditReviewText('');
+      setEditRating(5);
+    } catch (err) {
+      console.error('Review update error:', err);
+      alert('Error updating review: ' + err.message);
+    }
+  };
+
   return (
     <div className="container mt-4" style={{ paddingBottom: '100px' }}>
       <h2 className="text-center mb-4">{id ? 'Movie Details' : 'Create Movie'}</h2>
@@ -276,20 +338,78 @@ const MovieDetails = () => {
                 <ul className="list-group mb-4">
                   {reviews.map((r) => (
                     <li className="list-group-item" key={r._id}>
-                      <div>
-                        <strong>User:</strong> {r.reviewer?.username || 'Anonymous'}
-                      </div>
-                      <div>
-                        <strong>Rating:</strong> {r.rating} / 5
-                      </div>
-                      <div>{r.reviewText}</div>
-                      {(user?.role === 'admin' || user?._id === r.reviewer?._id) && (
-                        <button
-                          className="btn btn-danger btn-sm mt-2"
-                          onClick={() => handleDeleteReview(r._id, r.reviewer._id)}
-                        >
-                          Delete
-                        </button>
+                      {editingReview === r._id ? (
+                        // Edit mode
+                        <div>
+                          <div className="mb-2">
+                            <strong>User:</strong> {r.reviewer?.username || 'Anonymous'}
+                          </div>
+                          <div className="form-group mb-2">
+                            <label>Review</label>
+                            <textarea
+                              className="form-control"
+                              value={editReviewText}
+                              onChange={(e) => setEditReviewText(e.target.value)}
+                              required
+                            />
+                          </div>
+                          <div className="form-group mb-2">
+                            <label>Rating</label>
+                            <input
+                              type="number"
+                              min="0"
+                              max="5"
+                              step="0.1"
+                              value={editRating}
+                              onChange={(e) => setEditRating(Number(e.target.value))}
+                              className="form-control"
+                              required
+                            />
+                          </div>
+                          <div className="btn-group">
+                            <button
+                              className="btn btn-success btn-sm"
+                              onClick={() => handleUpdateReview(r._id)}
+                            >
+                              Save
+                            </button>
+                            <button
+                              className="btn btn-secondary btn-sm"
+                              onClick={handleCancelEdit}
+                            >
+                              Cancel
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        // View mode
+                        <div>
+                          <div>
+                            <strong>User:</strong> {r.reviewer?.username || 'Anonymous'}
+                          </div>
+                          <div>
+                            <strong>Rating:</strong> {r.rating} / 5
+                          </div>
+                          <div className="mb-2">{r.reviewText}</div>
+                          <div className="btn-group">
+                            {user?._id === r.reviewer?._id && (
+                              <button
+                                className="btn btn-primary btn-sm"
+                                onClick={() => handleEditReview(r)}
+                              >
+                                Edit
+                              </button>
+                            )}
+                            {(user?.role === 'admin' || user?._id === r.reviewer?._id) && (
+                              <button
+                                className="btn btn-danger btn-sm"
+                                onClick={() => handleDeleteReview(r._id, r.reviewer._id)}
+                              >
+                                Delete
+                              </button>
+                            )}
+                          </div>
+                        </div>
                       )}
                     </li>
                   ))}

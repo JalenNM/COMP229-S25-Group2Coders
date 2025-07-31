@@ -9,8 +9,7 @@ const Footer = () => {
             <div className="footer-content">
                 <div className="footer-left">
                     <p>
-                        &copy; 2025 Copyright <br />
-                        Group 2 Coders. All rights reserved.
+                        &copy; 2025 Group 2 Coders. All rights reserved.
                     </p>
                 </div>
                 <div className="footer-right">
