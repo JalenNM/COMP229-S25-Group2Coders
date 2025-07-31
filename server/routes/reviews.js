@@ -67,6 +67,58 @@ router.post('/', authenticate, async (req, res) => {
   }
 });
 
+// PUT update review by ID (authenticated, review owner only)
+router.put('/:id', authenticate, async (req, res) => {
+  const reviewId = req.params.id;
+  const { reviewText, rating } = req.body;
+
+  if (!reviewText || rating == null) {
+    return res.status(400).json({ message: 'reviewText and rating are required' });
+  }
+
+  if (rating < 0 || rating > 5) {
+    return res.status(400).json({ message: 'Rating must be between 0 and 5' });
+  }
+
+  try {
+    const review = await Review.findById(reviewId);
+
+    if (!review) {
+      return res.status(404).json({ message: 'Review not found' });
+    }
+
+    // Check if the user is the owner of the review
+    let reviewerId;
+    if (review.reviewer) {
+      if (typeof review.reviewer === 'object' && review.reviewer._id) {
+        reviewerId = review.reviewer._id.toString();
+      } else {
+        reviewerId = review.reviewer.toString();
+      }
+    } else {
+      return res.status(403).json({ message: 'Review has no reviewer, cannot authorize update.' });
+    }
+
+    // Only the review owner can update their review
+    if (req.user._id.toString() !== reviewerId) {
+      return res.status(403).json({ message: 'Unauthorized to update this review' });
+    }
+
+    // Update the review
+    review.reviewText = reviewText;
+    review.rating = rating;
+    const updatedReview = await review.save();
+
+    // Populate reviewer username for response
+    await updatedReview.populate('reviewer', 'username');
+
+    res.json({ review: updatedReview });
+  } catch (error) {
+    console.error('Error updating review:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
 // DELETE review by ID (authenticated, admin or review owner only)
 router.delete('/:id', authenticate, async (req, res) => {
   const reviewId = req.params.id;
